@@ -4,32 +4,20 @@ const crypto = require('crypto');
 const Schema = mongoose.Schema;
 
 /* The user schema attributes / characteristics / fields */
-var UserSchema = new Schema({
+let UserSchema = new Schema({
 
-  email: { 
-    type: String, 
-    unique: true, 
-    lowercase: true},
-    password: String,
+  email: { type: String, unique: true, lowercase: true},
+  password: String,
 
   profile: {
-    name: { 
-      type: String, 
-      default: ''},
-    picture: { 
-      type: String, 
-      default: ''}
+    name: { type: String, default: ''},
+    picture: { type: String, default: ''}
   },
 
   address: String,
   history: [{
-    paid: { 
-      type: Number, 
-      default: 0},
-    item: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'Product'
-    }
+    paid: { type: Number, default: 0},
+    item: { type: Schema.Types.ObjectId, ref: 'Product'}
   }]
 });
 

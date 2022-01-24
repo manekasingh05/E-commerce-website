@@ -2,6 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 
+// serialize and deserialize
 passport.serializeUser(function(user, done) {
   done(null, user._id);
 });
@@ -13,6 +14,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 
+//Middleware
 passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
@@ -32,7 +34,7 @@ passport.use('local-login', new LocalStrategy({
   });
 }));
 
-
+//custom function to validate
 exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();

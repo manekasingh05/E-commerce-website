@@ -1,3 +1,4 @@
+
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -7,25 +8,27 @@ const engine = require('ejs-mate');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
-const MongoStore = require('connect-mongo');
-mongoose.connect('mongodb://localhost:27017/e-commerce', {useNewUrlParser: true, useUnifiedTopology: true});
+const MongoStore = require('connect-mongo/es5')(session);
 const passport = require('passport');
+
+
+const secret = require('./config/secret');
 const User = require('./models/user');
 const Category = require('./models/category');
+
 const cartLength = require('./middlewares/middlewares');
-const mainRoutes = require('./routes/main');
-const userRoutes = require('./routes/user');
-const adminRoutes = require('./routes/admin');
-const apiRoutes = require('./api/api');
 
 const app = express();
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
+mongoose.connect(secret.database, function(err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Connected to the database");
+  }
 });
 
+// Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -34,11 +37,8 @@ app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: "maneka@2000",
-  store: MongoStore.create({ 
-      mongoUrl: 'mongodb://localhost:27017/e-commerce', 
-      autoReconnect: true
-    })
+  secret: secret.secretKey,
+  store: new MongoStore({ url: secret.database, autoReconnect: true})
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -60,14 +60,17 @@ app.use(function(req, res, next) {
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
+const mainRoutes = require('./routes/main');
+const userRoutes = require('./routes/user');
+const adminRoutes = require('./routes/admin');
+const apiRoutes = require('./api/api');
 
 app.use(mainRoutes);
 app.use(userRoutes);
 app.use(adminRoutes);
 app.use('/api', apiRoutes);
 
-
-app.listen(5000, (err) => {
-if (err) throw err;
-console.log("server running!");
+app.listen(secret.port, function(err) {
+  if (err) throw err;
+  console.log("Server is Running on port " + secret.port);
 });

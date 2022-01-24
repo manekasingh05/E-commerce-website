@@ -7,7 +7,7 @@ router.get('/add-category', function(req, res, next) {
 
 
 router.post('/add-category', function(req, res, next) {
-  var category = new Category();
+  let category = new Category();
   category.name = req.body.name;
 
   category.save(function(err) {

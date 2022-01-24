@@ -7,7 +7,40 @@ body {
 
 }
 
-
 .product-image {
   width: 100%;
 }
+.dropdown-menu li{
+color:rgb(118, 197, 228);
+}
+
+footer
+{
+    margin-top: 249px;
+    background-color: #222d3a;
+    width: 100vw;
+}
+#footer-copyrights p {
+  margin: 0;
+  color: #fff;
+  font-family: 'arial black';
+
+}
+
+#footer-menu {
+  float: left;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+#footer-menu a:hover {
+  color: rgb(118, 197, 228);
+}
+
+#footer-bottom {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 30px 0;
+  margin-top: 90px;
+}
+

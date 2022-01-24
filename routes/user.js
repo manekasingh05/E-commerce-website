@@ -6,6 +6,7 @@ const passport = require('passport');
 const passportConf = require('../config/passport');
 
 
+
 router.get('/login', function(req, res) {
   if (req.user) return res.redirect('/');
   res.render('accounts/login', { message: req.flash('loginMessage')});
@@ -38,7 +39,7 @@ router.post('/signup', function(req, res, next) {
 
   async.waterfall([
     function(callback) {
-      var user = new User();
+      let user = new User();
 
       user.profile.name = req.body.name;
       user.email = req.body.email;
@@ -60,7 +61,7 @@ router.post('/signup', function(req, res, next) {
     },
 
     function(user) {
-      var cart = new Cart();
+      let cart = new Cart();
       cart.owner = user._id;
       cart.save(function(err) {
         if (err) return next(err);

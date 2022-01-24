@@ -23,7 +23,7 @@
 
   <div class="row" id="searchResults">
 
-    <% for (var i = 0; i < products.length; i++) { %>
+    <% for (let i = 0; i < products.length; i++) { %>
     <div class="col-md-4">
       <a href="/product/<%= products[i]._id %>">
         <div class="thumbnail">
@@ -40,7 +40,7 @@
 
     <ul class="pagination text-center">
       <li>
-        <% for(var i = 1; i <= pages; i++) { %>
+        <% for(let i = 1; i <= pages; i++) { %>
           <% if (i === 1)  {  %>
             <li><a href="/"><%= i %></a></li>
           <% } else { %>

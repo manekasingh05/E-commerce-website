@@ -5,12 +5,12 @@ const Cart = require('../models/cart');
 
 const async = require('async');
 
-const stripe = require('stripe') ('sk_test_RtVWGtHcykG3FyyNS1EGhbIq');
+let stripe = require('stripe') ('sk_test_RtVWGtHcykG3FyyNS1EGhbIq');
 
 function paginate(req, res, next) {
 
   const perPage = 9;
-  const page = req.params.page;
+  let page = req.params.page;
 
   Product
     .find()
@@ -40,15 +40,15 @@ Product.createMapping(function(err, mapping) {
   }
 });
 
-const stream = Product.synchronize();
-const count = 0;
+let stream = Product.synchronize();
+let count = 0;
 
 stream.on('data', function() {
   count++;
 });
 
 stream.on('close', function() {
-  console.log(`Indexed ${count} documents`);
+  console.log("Indexed " + count + " documents");
 });
 
 stream.on('error', function(err) {
@@ -107,11 +107,13 @@ router.post('/search', function(req, res, next) {
 router.get('/search', function(req, res, next) {
   if (req.query.q) {
     Product.search({
-      query_string: { query: req.query.q}
+      query_string: { 
+        query: req.query.q
+      }
     }, function(err, results) {
       results:
       if (err) return next(err);
-      var data = results.hits.hits.map(function(hit) {
+      let data = results.hits.hits.map(function(hit) {
         return hit;
       });
       res.render('main/search-result', {
@@ -166,8 +168,8 @@ router.get('/product/:id', function(req, res, next) {
 
 router.post('/payment', function(req, res, next) {
 
-  var stripeToken = req.body.stripeToken;
-  var currentCharges = Math.round(req.body.stripeMoney * 100);
+  let stripeToken = req.body.stripeToken;
+  let currentCharges = Math.round(req.body.stripeMoney * 100);
   stripe.customers.create({
     source: stripeToken,
   }).then(function(customer) {
@@ -186,7 +188,7 @@ router.post('/payment', function(req, res, next) {
       function(cart, callback) {
         User.findOne({ _id: req.user._id }, function(err, user) {
           if (user) {
-            for (var i = 0; i < cart.items.length; i++) {
+            for (let i = 0; i < cart.items.length; i++) {
               user.history.push({
                 item: cart.items[i].item,
                 paid: cart.items[i].price

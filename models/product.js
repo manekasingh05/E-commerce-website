@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const mongoosastic = require('mongoosastic');
-const Schema = mongoose.Schema;
 const elasticsearch = require('elasticsearch');
+const Schema = mongoose.Schema;
 
-
-const ProductSchema = new Schema({
-  category: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'Category'
-  },
+let ProductSchema = new Schema({
+  category: { type: Schema.Types.ObjectId, ref: 'Category'},
   name: String,
   price: Number,
   image: String
@@ -16,8 +12,7 @@ const ProductSchema = new Schema({
 
 const esClient = new elasticsearch.Client({host: 'localhost:9200'});
 ProductSchema.plugin(mongoosastic, {
-    esClient: esClient
-  
+    esClient: esClient 
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

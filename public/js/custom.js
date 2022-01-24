@@ -1,17 +1,8 @@
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = (new JSDOM('')).window;
-global.document = document;
-
-const $ = jQuery = require('jquery')(window);
-const Stripe = Stripe('pk_test_s5MCQ9ddIg5tuYexEzKCyIxj');
-
 $(function() {
-  
-  const Stripe = Stripe('pk_test_s5MCQ9ddIg5tuYexEzKCyIxj');
 
-  const opts = {
+  Stripe.setPublishableKey('pk_test_s5MCQ9ddIg5tuYexEzKCyIxj');
+
+  let opts = {
     lines: 13 // The number of lines to draw
     , length: 27 // The length of each line
     , width: 30 // The line thickness
@@ -36,7 +27,7 @@ $(function() {
 
   $('#search').keyup(function() {
 
-    var search_term = $(this).val();
+    let search_term = $(this).val();
 
     $.ajax({
       method: 'POST',
@@ -46,14 +37,14 @@ $(function() {
       },
       dataType: 'json',
       success: function(json) {
-        var data = json.hits.hits.map(function(hit) {
+        let data = json.hits.hits.map(function(hit) {
           return hit;
         });
 
 
         $('#searchResults').empty();
-        for (var i = 0; i < data.length; i++) {
-          var html = "";
+        for (let i = 0; i < data.length; i++) {
+          let html = "";
           html += '<div class="col-md-4">';
           html += '<a href="/product/' + data[i]._source._id + '">';
           html += '<div class="thumbnail">';
@@ -78,8 +69,8 @@ $(function() {
 
   $(document).on('click', '#plus', function(e) {
     e.preventDefault();
-    var priceValue = parseFloat($('#priceValue').val());
-    var quantity = parseInt($('#quantity').val());
+    let priceValue = parseFloat($('#priceValue').val());
+    let quantity = parseInt($('#quantity').val());
 
     priceValue += parseFloat($('#priceHidden').val());
     quantity += 1;
@@ -111,7 +102,7 @@ $(function() {
 
 
   function stripeResponseHandler(status, response) {
-    var $form = $('#payment-form');
+    let $form = $('#payment-form');
 
     if (response.error) {
       // Show the errors on the form
@@ -132,7 +123,7 @@ $(function() {
 
 
   $('#payment-form').submit(function(event) {
-    var $form = $(this);
+    let $form = $(this);
 
     // Disable the submit button to prevent repeated clicks
     $form.find('button').prop('disabled', true);
@@ -142,14 +133,5 @@ $(function() {
     // Prevent the form from submitting with the default action
     return false;
   });
-
-
-
-
-
-
-
-
-
 
 });

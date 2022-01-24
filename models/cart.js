@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CartSchema = new Schema({
+let CartSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'User'},
   total: { type: Number, default: 0},
   items: [{
     item: { type: Schema.Types.ObjectId, ref: 'Product'},
     quantity: { type: Number, default: 1},
     price: { type: Number, default: 0},
-  }]
-});
+  }]}, {
+    usePushEach: true
+  }
+);
 
 
 module.exports = mongoose.model('Cart', CartSchema);
