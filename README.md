@@ -5,9 +5,13 @@ Run localhost:5000/
 
 ### NPM COMMANDS
 
-- npm install
+- Run npm install
 
 ### INSTALL MONGODB
 
-- use db e-commerce
+- Run use db e-commerce
+
+### INSTALL elasticsearch
+
+- Run elasticsearch
 
